@@ -66,3 +66,12 @@ app.get("/", function (req, res) {
   let response = "Hello World! :)";
   res.send({ response });
 });
+
+app.get("/todoList", function (req, res) {
+  res.send({ todoList });
+});
+
+app.post("/Add", (req, res) => {
+  todoList.push(req)
+  res.send(202)
+})
