@@ -77,12 +77,41 @@ app.get("/", function (req, res) {
   res.send({ response });
 });
 
+/* READ ENDPOINT */
+
 app.get("/todoList", function (req, res) {
   res.send({ todoList });
 });
 
-app.post("/add", async (req, res) => {
-  //const { body } = req
-  todoList.push(req)
+
+/* POST ENDPOINT */
+app.post("/add", (req, res) => {
+  const { body } = req
+  todoList.push(body)
+
   res.status(201).json({result:"success"})
 })
+
+
+/* UPDATE ENDPOINT */
+app.put("/edit/:id", (req, res) => {
+  const { id } = req.params
+  const { body } = req
+
+  todoList[id] = body
+
+  res.status(201).json({result:"success"})
+})
+
+
+/* DELETE ENDPOINT */
+app.delete("/delete/:id", (req, res) => {
+  const { id } = req.params
+
+  todoList.splice(id, 1)
+  console.log("id deletado: ",id)
+
+  res.status(201).json({result:"success"})
+})
+
+
