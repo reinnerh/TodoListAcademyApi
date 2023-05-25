@@ -1,4 +1,8 @@
- /* SINCRONIZAÇÂO COM BANDCO DE DADOS */
+/* IMPORTAÇÔES */
+const express = require("express");
+const cors = require("cors");
+
+/* SINCRONIZAÇÂO COM BANDCO DE DADOS */
 
 /* (async () => {
   const database = require("./db");
@@ -13,15 +17,48 @@
   }
 })(); */
 
+//cria, editar, atualizar e deletar, receber da request e o que fazer
+
+/* Abertura do servidor */
+
+const app = express();
+const port = 3333;
+
+app.listen(port, () => {
+  console.log("Server running on port: ", port);
+});
+
+/* CORS */
+/* const options = {
+    origin: "mascara do ip da empresa"
+} */
+
+app.use(cors());
+
 /* MODEL - TABELAS  */
 
-/* const todoList = [
+const todoList = [
   {
     id: 1,
-    title: "",
-    
-  }
-]
-const  */
+    titulo: "",
+    descricao: "",
+    dataFinal: "",
+    dataCriacao: "",
+    autor: "",
+    status: "",
+  },
+];
+const user = [
+  {
+    id: "",
+    name: "",
+    pass: "",
+  },
+];
 
-/*  */
+/* END POONTS */
+
+app.get("/", function (req, res) {
+  let response = "Hello World! :)";
+  res.send({ response });
+});
