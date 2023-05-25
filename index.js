@@ -33,7 +33,11 @@ app.listen(port, () => {
     origin: "mascara do ip da empresa"
 } */
 
-app.use(cors());
+//app.use(cors()); Libera todos os CORS
+app.use(cors({
+  origin: "172.17.1.161" 
+}));
+
 
 /* MODEL - TABELAS  */
 
