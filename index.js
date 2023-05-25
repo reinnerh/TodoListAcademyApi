@@ -2,12 +2,16 @@
 const express = require("express");
 const cors = require("cors");
 
+const bodyParser = require('body-parser');
+
+// configure the app to use bodyParser()
+
 /* SINCRONIZAÇÂO COM BANDCO DE DADOS */
 
 /* (async () => {
   const database = require("./db");
   const Produto = require("./produto");
-
+  
   try {
     const resultado = await database.sync();
     console.log("ok, funcionou");
@@ -21,8 +25,14 @@ const cors = require("cors");
 
 /* Abertura do servidor */
 
-const app = express();
 const port = 3333;
+
+const app = express();
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 app.listen(port, () => {
   console.log("Server running on port: ", port);
@@ -71,7 +81,8 @@ app.get("/todoList", function (req, res) {
   res.send({ todoList });
 });
 
-app.post("/Add", (req, res) => {
+app.post("/add", async (req, res) => {
+  //const { body } = req
   todoList.push(req)
-  res.send(202)
+  res.status(201).json({result:"success"})
 })
