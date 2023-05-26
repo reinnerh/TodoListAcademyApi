@@ -2,7 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 // configure the app to use bodyParser()
 
@@ -29,9 +29,11 @@ const port = 3333;
 
 const app = express();
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(bodyParser.json());
 
 app.listen(port, () => {
@@ -44,10 +46,11 @@ app.listen(port, () => {
 } */
 
 //app.use(cors()); Libera todos os CORS
-app.use(cors({
-  origin: "172.17.1.161" 
-}));
-
+app.use(
+  cors({
+    origin: ["172.17.1.161", "localhost:5173"],
+  })
+);
 
 /* MODEL - TABELAS  */
 
@@ -83,35 +86,30 @@ app.get("/todoList", function (req, res) {
   res.send({ todoList });
 });
 
-
 /* POST ENDPOINT */
 app.post("/add", (req, res) => {
-  const { body } = req
-  todoList.push(body)
+  const { body } = req;
+  todoList.push(body);
 
-  res.status(201).json({result:"success"})
-})
-
+  res.status(201).json({ result: "success" });
+});
 
 /* UPDATE ENDPOINT */
 app.put("/edit/:id", (req, res) => {
-  const { id } = req.params
-  const { body } = req
+  const { id } = req.params;
+  const { body } = req;
 
-  todoList[id] = body
+  todoList[id] = body;
 
-  res.status(201).json({result:"success"})
-})
-
+  res.status(201).json({ result: "success" });
+});
 
 /* DELETE ENDPOINT */
 app.delete("/delete/:id", (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
 
-  todoList.splice(id, 1)
-  console.log("id deletado: ",id)
+  todoList.splice(id, 1);
+  console.log("id deletado: ", id);
 
-  res.status(201).json({result:"success"})
-})
-
-
+  res.status(201).json({ result: "success" });
+});
