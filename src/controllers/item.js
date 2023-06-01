@@ -1,42 +1,39 @@
 const { Router } = require("express");
 const { ItemsService } = require("../services/items");
 const itemsController = Router();
-const todoList = [
-  {
-    id: 1,
-    titulo: "",
-    descricao: "",
-    dataFinal: "",
-    dataCriacao: "",
-    autor: "",
-    status: "",
-  },
-];
 
-itemsController.get("/", function (req, res) {
-  const items = ItemsService.findAll();
+itemsController.get("/", async function (req, res) {
+  const items = await ItemsService.findAll();
   res.status(200).json({ data: items });
 });
-itemsController.post("/", function (req, res) {
+
+itemsController.get("/:id/", async (req, res) => {
+  const { id } = req.params;
+  const item = await ItemsService.find(id);
+  return res.status(200).json({ data: item });
+});
+
+itemsController.post("/", async function (req, res) {
   const { body } = req;
-  todoList.push(body);
-  res.status(201).json({ result: "success" });
+  try {
+    const created = await ItemsService.create(body);
+    return res.status(201).json({ data: created });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
 });
 
-itemsController.get("/:id/", (req, res) => {
+itemsController.put("/:id/edit", async (req, res) => {
   const { id } = req.params;
-  res.status(201).json(todoList[id]);
+  const { body } = req;
+  const updatedItem = await ItemsService.update({ id, ...body });
+  return res.status(200).json({ result: "success" });
 });
 
-itemsController.put("/:id/edit", (req, res) => {
+itemsController.delete("/:id/", async (req, res) => {
   const { id } = req.params;
-  res.status(200).json(todoList[id]);
-});
-
-itemsController.delete("/:id/", (req, res) => {
-  const { id } = req.params;
-  todoList.splice(id, 1);
-  res.status(201).json({ result: "success" });
+  await ItemsService.delete({ id });
+  return res.status(201).json({ result: "success" });
 });
 
 module.exports = { itemsController };
